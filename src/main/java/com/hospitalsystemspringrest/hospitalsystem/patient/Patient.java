@@ -36,12 +36,11 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName, LocalDate dob, String email, Integer age) {
+    public Patient(String firstName, String lastName, LocalDate dob, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.email = email;
-        this.age = age;
     }
 
     public Long getId() {
