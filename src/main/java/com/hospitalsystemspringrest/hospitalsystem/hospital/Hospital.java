@@ -96,4 +96,14 @@ public class Hospital {
     public void setOccupiedBeds(Integer occupiedBeds) {
         this.occupiedBeds = occupiedBeds;
     }
+
+    @Override
+    public String toString() {
+        return "Hospital{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", totalBeds=" + totalBeds +
+                ", occupiedBeds=" + occupiedBeds +
+                '}';
+    }
 }

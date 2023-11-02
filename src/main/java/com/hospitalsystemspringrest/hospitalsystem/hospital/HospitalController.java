@@ -1,9 +1,7 @@
 package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,10 @@ public class HospitalController {
     @GetMapping
     public List<Hospital> getHospitals() {
         return hospitalService.getHospitals();
+    }
+
+    @PostMapping
+    public void createNewHospital(@RequestBody Hospital hospital) {
+        hospitalService.addNewHospital(hospital);
     }
 }
