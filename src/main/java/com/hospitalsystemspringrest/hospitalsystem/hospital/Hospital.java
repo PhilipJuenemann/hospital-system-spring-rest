@@ -3,34 +3,48 @@ package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 import com.hospitalsystemspringrest.hospitalsystem.common.Address;
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
+import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.util.List;
 
+@Entity
+@Table
 public class Hospital {
+
+    @Id
+    @SequenceGenerator(
+            name = "hospital_sequence",
+            sequenceName = "hospital_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "hospital_sequence"
+    )
     private Long id;
     private String name;
-    private Address address;
-    private List<Patient> patients;
+    //private Address address;
+    //private List<Patient> patients;
     private Integer totalBeds;
     private Integer occupiedBeds;
 
     public Hospital() {
     }
 
-    public Hospital(String name, Address address, List<Patient> patients, Integer totalBeds, Integer occupiedBeds) {
+    public Hospital(String name, Integer totalBeds, Integer occupiedBeds) {
         this.name = name;
-        this.address = address;
-        this.patients = patients;
+        /*this.address = address;
+        this.patients = patients;*/
         this.totalBeds = totalBeds;
         this.occupiedBeds = occupiedBeds;
     }
 
-    public Hospital(Long id, String name, Address address, List<Patient> patients, Integer totalBeds, Integer occupiedBeds) {
+    public Hospital(Long id, String name, Integer totalBeds, Integer occupiedBeds) {
         this.id = id;
         this.name = name;
-        this.address = address;
-        this.patients = patients;
+        /*this.address = address;
+        this.patients = patients;*/
         this.totalBeds = totalBeds;
         this.occupiedBeds = occupiedBeds;
     }
@@ -51,21 +65,21 @@ public class Hospital {
         this.name = name;
     }
 
-    public Address getAddress() {
+    /*public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
-    }
+    }*/
 
-    public List<Patient> getPatients() {
+    /*public List<Patient> getPatients() {
         return patients;
     }
 
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
-    }
+    }*/
 
     public Integer getTotalBeds() {
         return totalBeds;

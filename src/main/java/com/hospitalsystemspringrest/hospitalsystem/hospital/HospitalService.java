@@ -13,8 +13,6 @@ public class HospitalService {
         return List.of(
                 new Hospital(
                         "Amalie Sieveking",
-                        new Address("Heisenbergstraße, 3", "Munich", "Bayern", "Germany", "85748"),
-                        Collections.emptyList(),
                         20,
                         7)
         );
