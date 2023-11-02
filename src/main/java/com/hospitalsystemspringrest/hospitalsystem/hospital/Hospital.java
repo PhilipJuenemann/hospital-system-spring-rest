@@ -6,7 +6,9 @@ import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -22,10 +24,14 @@ public class Hospital {
             strategy = GenerationType.SEQUENCE,
             generator = "hospital_sequence"
     )
-    private Long id;
+    private Long hospitalId;
     private String name;
     //private Address address;
-    //private List<Patient> patients;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "hospital_patient",
+            joinColumns = @JoinColumn(name = "hospital_id"),
+            inverseJoinColumns = @JoinColumn(name = "patient_id"))
+    private Set<Patient> patients = new HashSet<>();
     private Integer totalBeds;
     private Integer occupiedBeds;
 
@@ -41,7 +47,7 @@ public class Hospital {
     }
 
     public Hospital(Long id, String name, Integer totalBeds, Integer occupiedBeds) {
-        this.id = id;
+        this.hospitalId = id;
         this.name = name;
         /*this.address = address;
         this.patients = patients;*/
@@ -50,11 +56,11 @@ public class Hospital {
     }
 
     public Long getId() {
-        return id;
+        return hospitalId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.hospitalId = id;
     }
 
     public String getName() {
@@ -97,10 +103,18 @@ public class Hospital {
         this.occupiedBeds = occupiedBeds;
     }
 
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
+    }
+
     @Override
     public String toString() {
         return "Hospital{" +
-                "id=" + id +
+                "id=" + hospitalId +
                 ", name='" + name + '\'' +
                 ", totalBeds=" + totalBeds +
                 ", occupiedBeds=" + occupiedBeds +

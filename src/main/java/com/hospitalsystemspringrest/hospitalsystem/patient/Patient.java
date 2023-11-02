@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -22,13 +24,14 @@ public class Patient {
             strategy = GenerationType.SEQUENCE,
             generator = "student_sequence"
     )
-    private Long id;
+    private Long patientId;
     private String firstName;
     private String lastName;
     private LocalDate dob;
     //private Address address;
     private String email;
-    //private List<Hospital> hospitalsRegistered;
+    @ManyToMany(mappedBy = "patients", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Hospital> hospitalsRegistered = new HashSet<>();
 
     @Transient
     private Integer age;
@@ -44,11 +47,11 @@ public class Patient {
     }
 
     public Long getId() {
-        return id;
+        return patientId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.patientId = id;
     }
 
     public String getFirstName() {
@@ -91,10 +94,18 @@ public class Patient {
         this.age = age;
     }
 
+    public Set<Hospital> getHospitals() {
+        return hospitalsRegistered;
+    }
+
+    public void setHospitals(Set<Hospital> hospitalsRegistered) {
+        this.hospitalsRegistered = hospitalsRegistered;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
-                "id=" + id +
+                "id=" + patientId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dob=" + dob +

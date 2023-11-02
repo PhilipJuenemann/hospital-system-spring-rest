@@ -1,5 +1,6 @@
 package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
+import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +25,9 @@ public class HospitalController {
     @PostMapping
     public void createNewHospital(@RequestBody Hospital hospital) {
         hospitalService.addNewHospital(hospital);
+    }
+
+    public void registerPatientHospital(Patient patient, Hospital hospital) {
+
     }
 }
