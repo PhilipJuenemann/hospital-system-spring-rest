@@ -48,7 +48,7 @@ public class HospitalConfig {
             );
             patientRepository.save(testDataPatient);
             hospitalRepository.saveAll(List.of(testDataHospitalOne, testDataHospitalTwo));
-            hospitalController.registerPatientToHospital(testDataHospitalOne, testDataPatient);
+            //hospitalController.registerPatientToHospital(1L, 1L);
         };
     }
 }

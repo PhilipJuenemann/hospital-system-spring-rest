@@ -2,6 +2,7 @@ package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import com.hospitalsystemspringrest.hospitalsystem.patient.PatientRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class HospitalService {
 
     private final HospitalRepository hospitalRepository;
+    private final PatientRepository patientRepository;
 
     @Autowired
-    public HospitalService(HospitalRepository hospitalRepository) {
+    public HospitalService(HospitalRepository hospitalRepository, PatientRepository patientRepository) {
         this.hospitalRepository = hospitalRepository;
+        this.patientRepository = patientRepository;
     }
 
     public List<Hospital> getHospitals() {
@@ -59,10 +62,18 @@ public class HospitalService {
         hospitalRepository.save(hospital);
     }
 
-    public void registerPatientToHospital(Hospital hospital, Patient patient) {
-        hospital.getPatients().add(patient);
-        patient.getHospitals().add(hospital);
-        hospitalRepository.save(hospital);
+    public void registerPatientToHospital(Long patientId, Long hospitalId) {
+        Optional<Hospital> hospitalOptional = hospitalRepository.findById(hospitalId);
+        Optional<Patient> patientOptional = patientRepository.findById(patientId);
+        if (hospitalOptional.isPresent() && patientOptional.isPresent()) {
+            Hospital hospital = hospitalOptional.get();
+            Patient patient = patientOptional.get();
+            hospital.getPatients().add(patient);
+            patient.getHospitals().add(hospital);
+            hospitalRepository.save(hospital);
+        } else {
+            throw new EntityNotFoundException("Hospital or Patient not found");
+        }
     }
 
     public List<Patient> getPatientsOfHospital(Long hospitalId) {

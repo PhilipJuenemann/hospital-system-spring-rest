@@ -42,9 +42,9 @@ public class HospitalController {
         hospitalService.updateHospital(hospitalId, name, totalBeds, occupiedBeds);
     }
 
-    @PostMapping("/register")
-    public void registerPatientToHospital(Hospital hospital, Patient patient) {
-        hospitalService.registerPatientToHospital(hospital, patient);
+    @PostMapping("/register/{patientId}/{hospitalId}")
+    public void registerPatientToHospital(@PathVariable Long patientId, @PathVariable Long hospitalId) {
+        hospitalService.registerPatientToHospital(patientId, hospitalId);
     }
 
     @GetMapping(path = "patients/{hospitalId}")
