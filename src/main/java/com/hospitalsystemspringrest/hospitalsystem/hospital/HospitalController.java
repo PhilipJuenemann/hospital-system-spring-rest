@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/hospital")
+@RequestMapping(path = "api/hospital")
 public class HospitalController {
 
     private final HospitalService hospitalService;
@@ -22,9 +22,25 @@ public class HospitalController {
         return hospitalService.getHospitals();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public void createNewHospital(@RequestBody Hospital hospital) {
+        System.out.println("Wwuidfhpaisjd fhpaisjdhf paisjdhf paskjdhf paisudhf pisaudhf ");
         hospitalService.addNewHospital(hospital);
+    }
+
+    @DeleteMapping(path = "/{hospitalId}")
+    public void deleteHospital(@PathVariable("hospitalId") Long hospitalId) {
+        hospitalService.deleteHospital(hospitalId);
+    }
+
+    @PutMapping(path = "/{hospitalId}")
+    public void updateHospital(
+            @PathVariable("hospitalId") Long hospitalId,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer totalBeds,
+            @RequestParam(required = false) Integer occupiedBeds
+    ) {
+        hospitalService.updateHospital(hospitalId, name, totalBeds, occupiedBeds);
     }
 
     @PostMapping("/register")

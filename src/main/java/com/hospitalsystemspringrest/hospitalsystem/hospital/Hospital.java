@@ -31,7 +31,7 @@ public class Hospital {
     //private Address address;
 
     //CascadeType.ALL has to be changed in order for related patients to not get deleted
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "hospital_patient",
             joinColumns = @JoinColumn(name = "hospital_id"),
             inverseJoinColumns = @JoinColumn(name = "patient_id"))
@@ -43,19 +43,19 @@ public class Hospital {
     public Hospital() {
     }
 
-    public Hospital(String name, Integer totalBeds, Integer occupiedBeds) {
+    public Hospital(String name, Set<Patient> patients, Integer totalBeds, Integer occupiedBeds) {
         this.name = name;
-        /*this.address = address;
-        this.patients = patients;*/
+        /*this.address = address;*/
+        this.patients = patients;
         this.totalBeds = totalBeds;
         this.occupiedBeds = occupiedBeds;
     }
 
-    public Hospital(Long id, String name, Integer totalBeds, Integer occupiedBeds) {
+    public Hospital(Long id, String name, Set<Patient> patients, Integer totalBeds, Integer occupiedBeds) {
         this.hospitalId = id;
         this.name = name;
-        /*this.address = address;
-        this.patients = patients;*/
+        /*this.address = address;*/
+        this.patients = patients;
         this.totalBeds = totalBeds;
         this.occupiedBeds = occupiedBeds;
     }

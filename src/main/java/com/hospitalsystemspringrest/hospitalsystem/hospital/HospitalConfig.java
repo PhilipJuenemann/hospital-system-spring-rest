@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,17 +31,20 @@ public class HospitalConfig {
         return args -> {
             Hospital sieveking = new Hospital(
                             "Amalie Sieveking",
+                    new HashSet<>(),
                             20,
                             7);
 
             Hospital lmuKlinikum = new Hospital(
                     "LMUKlinikum",
+                    new HashSet<>(),
                     255,
                     67);
 
             Patient patient = new Patient(
                     "Philip",
                     "Jünemann",
+                    new HashSet<>(),
                     LocalDate.of(2003, Month.DECEMBER, 30),
                     "philip.juenemanns@gmail.com"
             );

@@ -32,7 +32,7 @@ public class Patient {
     private LocalDate dob;
     //private Address address;
     private String email;
-    @ManyToMany(mappedBy = "patients", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "patients", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private Set<Hospital> hospitalsRegistered = new HashSet<>();
 
@@ -42,9 +42,10 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName, LocalDate dob, String email) {
+    public Patient(String firstName, String lastName,Set<Hospital> hospitals ,LocalDate dob, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.hospitalsRegistered = hospitals;
         this.dob = dob;
         this.email = email;
     }
