@@ -2,14 +2,12 @@ package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hospitalsystemspringrest.hospitalsystem.common.Address;
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,16 +25,16 @@ public class Hospital {
             generator = "hospital_sequence"
     )
     private Long hospitalId;
-    private String name;
-    //private Address address;
 
-    //CascadeType.ALL has to be changed in order for related patients to not get deleted
+    private String name;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "hospital_patient",
             joinColumns = @JoinColumn(name = "hospital_id"),
             inverseJoinColumns = @JoinColumn(name = "patient_id"))
     @JsonBackReference
     private Set<Patient> patients = new HashSet<>();
+
     private Integer totalBeds;
     private Integer occupiedBeds;
 
@@ -45,27 +43,17 @@ public class Hospital {
 
     public Hospital(String name, Set<Patient> patients, Integer totalBeds, Integer occupiedBeds) {
         this.name = name;
-        /*this.address = address;*/
         this.patients = patients;
         this.totalBeds = totalBeds;
         this.occupiedBeds = occupiedBeds;
     }
 
-    public Hospital(Long id, String name, Set<Patient> patients, Integer totalBeds, Integer occupiedBeds) {
-        this.hospitalId = id;
-        this.name = name;
-        /*this.address = address;*/
-        this.patients = patients;
-        this.totalBeds = totalBeds;
-        this.occupiedBeds = occupiedBeds;
-    }
-
-    public Long getId() {
+    public Long getHospitalId() {
         return hospitalId;
     }
 
-    public void setId(Long id) {
-        this.hospitalId = id;
+    public void setHospitalId(Long hospitalId) {
+        this.hospitalId = hospitalId;
     }
 
     public String getName() {
@@ -76,21 +64,13 @@ public class Hospital {
         this.name = name;
     }
 
-    /*public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }*/
-
-    /*public List<Patient> getPatients() {
+    public Set<Patient> getPatients() {
         return patients;
     }
 
-    public void setPatients(List<Patient> patients) {
+    public void setPatients(Set<Patient> patients) {
         this.patients = patients;
-    }*/
+    }
 
     public Integer getTotalBeds() {
         return totalBeds;
@@ -106,14 +86,6 @@ public class Hospital {
 
     public void setOccupiedBeds(Integer occupiedBeds) {
         this.occupiedBeds = occupiedBeds;
-    }
-
-    public Set<Patient> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(Set<Patient> patients) {
-        this.patients = patients;
     }
 
     @Override

@@ -1,15 +1,13 @@
 package com.hospitalsystemspringrest.hospitalsystem.patient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hospitalsystemspringrest.hospitalsystem.common.Address;
 import com.hospitalsystemspringrest.hospitalsystem.hospital.Hospital;
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,14 +25,15 @@ public class Patient {
             generator = "student_sequence"
     )
     private Long patientId;
+
     private String firstName;
     private String lastName;
     private LocalDate dob;
-    //private Address address;
     private String email;
+
     @ManyToMany(mappedBy = "patients", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
-    private Set<Hospital> hospitalsRegistered = new HashSet<>();
+    private Set<Hospital> hospitals = new HashSet<>();
 
     @Transient
     private Integer age;
@@ -42,20 +41,20 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName,Set<Hospital> hospitals ,LocalDate dob, String email) {
+    public Patient(String firstName, String lastName, Set<Hospital> hospitals , LocalDate dob, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.hospitalsRegistered = hospitals;
+        this.hospitals = hospitals;
         this.dob = dob;
         this.email = email;
     }
 
-    public Long getId() {
+    public Long getPatientId() {
         return patientId;
     }
 
-    public void setId(Long id) {
-        this.patientId = id;
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public String getFirstName() {
@@ -90,20 +89,20 @@ public class Patient {
         this.email = email;
     }
 
+    public Set<Hospital> getHospitals() {
+        return hospitals;
+    }
+
+    public void setHospitals(Set<Hospital> hospitals) {
+        this.hospitals = hospitals;
+    }
+
     public Integer getAge() {
-        return Period.between(this.dob, LocalDate.now()).getYears();
+        return age;
     }
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public Set<Hospital> getHospitals() {
-        return hospitalsRegistered;
-    }
-
-    public void setHospitals(Set<Hospital> hospitalsRegistered) {
-        this.hospitalsRegistered = hospitalsRegistered;
     }
 
     @Override

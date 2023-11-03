@@ -1,6 +1,5 @@
 package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
-import com.hospitalsystemspringrest.hospitalsystem.exception.PatientNotFoundException;
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import com.hospitalsystemspringrest.hospitalsystem.patient.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Configuration
 public class HospitalConfig {
@@ -29,33 +27,28 @@ public class HospitalConfig {
             HospitalRepository hospitalRepository,
             PatientRepository patientRepository) {
         return args -> {
-            Hospital sieveking = new Hospital(
+            Hospital testDataHospitalOne = new Hospital(
                             "Amalie Sieveking",
                     new HashSet<>(),
                             20,
                             7);
 
-            Hospital lmuKlinikum = new Hospital(
+            Hospital testDataHospitalTwo = new Hospital(
                     "LMUKlinikum",
                     new HashSet<>(),
                     255,
                     67);
 
-            Patient patient = new Patient(
+            Patient testDataPatient = new Patient(
                     "Philip",
                     "Jünemann",
                     new HashSet<>(),
                     LocalDate.of(2003, Month.DECEMBER, 30),
                     "philip.juenemanns@gmail.com"
             );
-
-            patientRepository.save(patient);
-
-            hospitalRepository.saveAll(List.of(sieveking, lmuKlinikum));
-
-            hospitalController.registerPatientToHospital(sieveking, patient);
+            patientRepository.save(testDataPatient);
+            hospitalRepository.saveAll(List.of(testDataHospitalOne, testDataHospitalTwo));
+            hospitalController.registerPatientToHospital(testDataHospitalOne, testDataPatient);
         };
-
-
     }
 }

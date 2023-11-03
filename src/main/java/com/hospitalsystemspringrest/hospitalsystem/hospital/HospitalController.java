@@ -2,12 +2,9 @@ package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/hospital")
@@ -15,12 +12,9 @@ public class HospitalController {
 
     private final HospitalService hospitalService;
 
-    private final HospitalRepository hospitalRepository;
-
     @Autowired
-    public HospitalController(HospitalService hospitalService, HospitalRepository hospitalRepository) {
+    public HospitalController(HospitalService hospitalService) {
         this.hospitalService = hospitalService;
-        this.hospitalRepository = hospitalRepository;
     }
 
     @GetMapping
@@ -30,8 +24,7 @@ public class HospitalController {
 
     @PostMapping
     public void createNewHospital(@RequestBody Hospital hospital) {
-        System.out.println("Wwuidfhpaisjd fhpaisjdhf paisjdhf paskjdhf paisudhf pisaudhf ");
-        hospitalService.addNewHospital(hospital);
+        hospitalService.createNewHospital(hospital);
     }
 
     @DeleteMapping(path = "/{hospitalId}")

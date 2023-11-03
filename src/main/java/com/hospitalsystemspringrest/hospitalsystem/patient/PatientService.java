@@ -21,6 +21,10 @@ public class PatientService {
         this.hospitalRepository = hospitalRepository;
     }
 
+    public List<Patient> getPatients() {
+        return patientRepository.findAll();
+    }
+
     public void createNewPatient(Patient patient) {
         Optional<Patient> patientOptional = patientRepository.findByFirstNameAndLastName(
                 patient.getFirstName(), patient.getLastName());
@@ -40,7 +44,7 @@ public class PatientService {
     }
 
 
-    public void modifyPatient(Long patientId, Patient patient) {
+    public void updatePatient(Long patientId, Patient patient) {
         Patient existingPatient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new IllegalStateException("Patient with ID " + patientId + " does not exist"));
         if(patient.getFirstName() != null && !patient.getFirstName().isEmpty()) {

@@ -2,23 +2,17 @@ package com.hospitalsystemspringrest.hospitalsystem.patient;
 
 import com.hospitalsystemspringrest.hospitalsystem.hospital.Hospital;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/patient")
 public class PatientController {
     private final PatientService patientService;
-    private final PatientRepository patientRepository;
 
     @Autowired
-    public PatientController(PatientService patientService, PatientRepository patientRepository) {
+    public PatientController(PatientService patientService) {
         this.patientService = patientService;
-        this.patientRepository = patientRepository;
     }
 
     @PostMapping(path = "/create")
@@ -33,12 +27,12 @@ public class PatientController {
 
     @PutMapping(path = "/{patientId}")
     public void modifyPatient(@PathVariable Long patientId, @RequestBody Patient patient) {
-        patientService.modifyPatient(patientId, patient);
+        patientService.updatePatient(patientId, patient);
     }
 
     @GetMapping
     public List<Patient> getPatients() {
-        return patientRepository.findAll();
+        return patientService.getPatients();
     }
 
     @GetMapping(path = "hospitals/{patientId}")
