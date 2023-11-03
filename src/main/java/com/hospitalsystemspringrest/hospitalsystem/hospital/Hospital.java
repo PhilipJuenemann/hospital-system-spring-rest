@@ -1,6 +1,8 @@
 package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hospitalsystemspringrest.hospitalsystem.common.Address;
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import jakarta.persistence.*;
@@ -27,10 +29,13 @@ public class Hospital {
     private Long hospitalId;
     private String name;
     //private Address address;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    //CascadeType.ALL has to be changed in order for related patients to not get deleted
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "hospital_patient",
             joinColumns = @JoinColumn(name = "hospital_id"),
             inverseJoinColumns = @JoinColumn(name = "patient_id"))
+    @JsonBackReference
     private Set<Patient> patients = new HashSet<>();
     private Integer totalBeds;
     private Integer occupiedBeds;

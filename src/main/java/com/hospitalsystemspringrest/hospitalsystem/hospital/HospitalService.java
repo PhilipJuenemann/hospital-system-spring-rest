@@ -35,12 +35,7 @@ public class HospitalService {
         hospitalRepository.save(hospital);
     }
 
-    public void registerPatientToHospital(Long hospitalId, Long patientId) {
-        Hospital hospital = hospitalRepository.findById(hospitalId)
-                .orElseThrow(() -> new RuntimeException("Hospital not found with id " + hospitalId));
-        Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id " + patientId));
-
+    public void registerPatientToHospital(Hospital hospital, Patient patient) {
         hospital.getPatients().add(patient);
         patient.getHospitals().add(hospital);
 

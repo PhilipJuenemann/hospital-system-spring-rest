@@ -22,12 +22,13 @@ public class HospitalController {
         return hospitalService.getHospitals();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public void createNewHospital(@RequestBody Hospital hospital) {
         hospitalService.addNewHospital(hospital);
     }
 
-    public void registerPatientHospital(Patient patient, Hospital hospital) {
-
+    @PostMapping("/register")
+    public void registerPatientToHospital(Hospital hospital, Patient patient) {
+        hospitalService.registerPatientToHospital(hospital, patient);
     }
 }

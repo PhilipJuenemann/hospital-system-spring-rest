@@ -1,12 +1,12 @@
 package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
+import com.hospitalsystemspringrest.hospitalsystem.exception.PatientNotFoundException;
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import com.hospitalsystemspringrest.hospitalsystem.patient.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -16,30 +16,15 @@ import java.util.Optional;
 @Configuration
 public class HospitalConfig {
 
-    private final HospitalService hospitalService;
+    private final HospitalController hospitalController;
 
     @Autowired
-    public HospitalConfig(HospitalService hospitalService) {
-        this.hospitalService = hospitalService;
+    public HospitalConfig(HospitalController hospitalController) {
+        this.hospitalController = hospitalController;
     }
 
     @Bean
-    CommandLineRunner commandLineRunnerPatient(
-            PatientRepository repository) {
-        return args -> {
-            Patient philip = new Patient(
-                    "Philip",
-                    "Jünemann",
-                    LocalDate.of(2003, Month.DECEMBER, 30),
-                    "philip.juenemanns@gmail.com"
-            );
-
-            repository.save(philip);
-        };
-    }
-
-    @Bean
-    CommandLineRunner commandLineRunner(
+    CommandLineRunner commandLineRunnerHospital(
             HospitalRepository hospitalRepository,
             PatientRepository patientRepository) {
         return args -> {
@@ -53,14 +38,18 @@ public class HospitalConfig {
                     255,
                     67);
 
+            Patient patient = new Patient(
+                    "Philip",
+                    "Jünemann",
+                    LocalDate.of(2003, Month.DECEMBER, 30),
+                    "philip.juenemanns@gmail.com"
+            );
+
+            patientRepository.save(patient);
+
             hospitalRepository.saveAll(List.of(sieveking, lmuKlinikum));
 
-            Optional<Patient> philip = patientRepository
-                    .findByFirstNameAndLastName("Philip", "Jünemann");
-
-            System.out.println("______-----------------------------------------_" + philip);
-
-            hospitalService.registerPatientToHospital(sieveking.getId(), philip.orElseThrow().getId());
+            hospitalController.registerPatientToHospital(sieveking, patient);
         };
 
 
