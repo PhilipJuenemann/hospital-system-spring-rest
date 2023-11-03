@@ -1,11 +1,10 @@
 package com.hospitalsystemspringrest.hospitalsystem.patient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hospitalsystemspringrest.hospitalsystem.hospital.Hospital;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +31,8 @@ public class Patient {
     private String email;
 
     @ManyToMany(mappedBy = "patients", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonBackReference("hospital-patient")
+    @JsonIgnore
     private Set<Hospital> hospitals = new HashSet<>();
 
     @Transient

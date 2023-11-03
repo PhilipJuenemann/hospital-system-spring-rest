@@ -2,11 +2,10 @@ package com.hospitalsystemspringrest.hospitalsystem.hospital;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,7 +31,8 @@ public class Hospital {
     @JoinTable(name = "hospital_patient",
             joinColumns = @JoinColumn(name = "hospital_id"),
             inverseJoinColumns = @JoinColumn(name = "patient_id"))
-    @JsonBackReference
+    @JsonManagedReference("hospital-patient")
+    @JsonIgnore
     private Set<Patient> patients = new HashSet<>();
 
     private Integer totalBeds;
