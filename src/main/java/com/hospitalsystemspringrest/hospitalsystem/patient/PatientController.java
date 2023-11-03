@@ -1,9 +1,13 @@
 package com.hospitalsystemspringrest.hospitalsystem.patient;
 
+import com.hospitalsystemspringrest.hospitalsystem.hospital.Hospital;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/patient")
@@ -35,5 +39,10 @@ public class PatientController {
     @GetMapping
     public List<Patient> getPatients() {
         return patientRepository.findAll();
+    }
+
+    @GetMapping(path = "hospitals/{patientId}")
+    public List<Hospital> getHospitalsOfPatient(@PathVariable Long patientId) {
+        return patientService.getHospitalsOfPatient(patientId);
     }
 }

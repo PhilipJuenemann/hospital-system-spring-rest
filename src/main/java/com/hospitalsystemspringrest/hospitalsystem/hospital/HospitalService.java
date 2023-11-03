@@ -4,7 +4,9 @@ import com.hospitalsystemspringrest.hospitalsystem.patient.Patient;
 import com.hospitalsystemspringrest.hospitalsystem.patient.PatientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -70,5 +72,13 @@ public class HospitalService {
         }
 
         hospitalRepository.save(hospital);
+    }
+
+    public List<Patient> getPatientsOfHospital(Long hospitalId) {
+        Optional<Hospital> optionalHospital = hospitalRepository.findById(hospitalId);
+        if(optionalHospital.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with ID " + hospitalId + " not found");
+        }
+        return optionalHospital.get().getPatients().stream().toList();
     }
 }
