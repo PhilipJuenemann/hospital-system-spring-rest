@@ -14,11 +14,10 @@ import java.util.Optional;
 @Service
 public class PatientService {
     private final PatientRepository patientRepository;
-    private final HospitalRepository hospitalRepository;
+
     @Autowired
-    public PatientService(PatientRepository patientRepository, HospitalRepository hospitalRepository) {
+    public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
-        this.hospitalRepository = hospitalRepository;
     }
 
     public List<Patient> getPatients() {
@@ -37,9 +36,9 @@ public class PatientService {
     public void deletePatient(Long patientId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new IllegalStateException("Patient with ID " + patientId + " does not exist"));
+
         patient.getHospitals().forEach(hospital -> hospital.getPatients().remove(patient));
         patient.setHospitals(new HashSet<>());
-        hospitalRepository.saveAll(patient.getHospitals());
         patientRepository.deleteById(patientId);
     }
 
