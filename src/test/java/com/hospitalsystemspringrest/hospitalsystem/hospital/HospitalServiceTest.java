@@ -36,7 +36,7 @@ class HospitalServiceTest {
 
     @Test
     @Disabled
-    void createNewHospital() {
+    void addNewHospital() {
     }
 
     @Test

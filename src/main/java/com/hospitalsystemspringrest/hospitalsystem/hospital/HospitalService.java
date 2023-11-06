@@ -29,7 +29,7 @@ public class HospitalService {
         return hospitalRepository.findAll();
     }
 
-    public void createNewHospital(Hospital hospital) {
+    public void addNewHospital(Hospital hospital) {
         Optional<Hospital> hospitalOptional = hospitalRepository
                 .findHospitalByName(hospital.getName());
         if(hospitalOptional.isPresent()) {

@@ -24,7 +24,7 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public void createNewPatient(Patient patient) {
+    public void addNewPatient(Patient patient) {
         Optional<Patient> patientOptional = patientRepository.findByFirstNameAndLastName(
                 patient.getFirstName(), patient.getLastName());
         if(patientOptional.isPresent()) {

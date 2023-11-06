@@ -24,7 +24,7 @@ public class HospitalController {
 
     @PostMapping
     public void createNewHospital(@RequestBody Hospital hospital) {
-        hospitalService.createNewHospital(hospital);
+        hospitalService.addNewHospital(hospital);
     }
 
     @DeleteMapping(path = "/{hospitalId}")

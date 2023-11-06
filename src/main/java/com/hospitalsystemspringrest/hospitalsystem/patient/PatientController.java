@@ -17,7 +17,7 @@ public class PatientController {
 
     @PostMapping(path = "/create")
     public void createNewPatient(@RequestBody Patient patient) {
-        patientService.createNewPatient(patient);
+        patientService.addNewPatient(patient);
     }
 
     @DeleteMapping(path = "/{patientId}")
